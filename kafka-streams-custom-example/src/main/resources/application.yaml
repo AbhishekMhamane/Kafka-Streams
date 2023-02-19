@@ -1,0 +1,12 @@
+server.port: 8080
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      replication-factor: 1
+      application-id: springboot-streams-app
+
+payment.topic.name: payments
+upi.topic.name: upi-payments
+netbanking.topic.name: netbanking-payments
