@@ -8,19 +8,19 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpiPaymentConsumer {
+public class NetBankingEventConsumer {
 
-  Logger log = LoggerFactory.getLogger(PaymentEventProducer.class);
+  Logger log = LoggerFactory.getLogger(NetBankingEventConsumer.class);
 
   @KafkaListener(
-    topics = "${upi.topic.name}",
+    topics = "${netbanking.topic.name}",
     containerFactory = "PaymentEventKafkaListenerContainerFactory"
   )
-  public void consumerUpiPayments(ConsumerRecord<String, PaymentEvent> record) {
+  public void netBankingEventConsumer(ConsumerRecord<String, PaymentEvent> record) {
     log.info(
-      "UpiPaymentConsumer received payment event from topic upi-payments with key " +
+      "NetBankingEventConsumer received payment event from netbanking-payments with key " +
       record.key() +
-      "& value " +
+      " & value " +
       record.value()
     );
   }

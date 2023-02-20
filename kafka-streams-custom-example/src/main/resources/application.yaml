@@ -10,3 +10,4 @@ spring:
 payment.topic.name: payments
 upi.topic.name: upi-payments
 netbanking.topic.name: netbanking-payments
+account-balance.topic.name: account-balance

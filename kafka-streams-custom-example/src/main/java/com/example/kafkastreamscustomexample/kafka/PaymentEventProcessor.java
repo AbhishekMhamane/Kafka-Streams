@@ -7,6 +7,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,15 @@ public class PaymentEventProcessor {
   @Value("${netbanking.topic.name}")
   String netTopic;
 
+  @Value("${account-balance.topic.name}")
+  String accBalanceTopic;
+
   @Autowired
   CustomSerde customSerde;
 
   final Serde<String> stringSerde = Serdes.String();
+  final Serde<Long> longSerde = Serdes.Long();
+
 
   @Autowired
   public void buildPaymentEvent(StreamsBuilder builder) {
@@ -43,23 +49,19 @@ public class PaymentEventProcessor {
       Consumed.with(stringSerde, customSerde.custPaymentEvent())
     );
 
-    KStream<String, PaymentEvent> upiPayStream = payStreams.filter((k, v) ->
+    payStreams.filter((k, v) ->
       v.getMode().equals("upi")
-    );
+    ).to(upiTopic,Produced.with(stringSerde, customSerde.custPaymentEvent()));
 
-    upiPayStream.to(
-      upiTopic,
-      Produced.with(stringSerde, customSerde.custPaymentEvent())
-    );
-
-    KStream<String, PaymentEvent> netPayStream = payStreams.filter((k, v) ->
+    payStreams.filter((k, v) ->
       v.getMode().equals("netbanking")
-    );
-
-    netPayStream.to(
-      netTopic,
-      Produced.with(stringSerde, customSerde.custPaymentEvent())
-    );
+    ).to( netTopic,Produced.with(stringSerde, customSerde.custPaymentEvent()));
     
+    KTable<String, Long> balanceTable = payStreams
+    .groupBy((key,val)->val.getToAccount())
+    .aggregate(()->0L,(key,val,total)->total+val.getAmount());
+
+    balanceTable.toStream().to(accBalanceTopic,Produced.with(stringSerde, longSerde));
   }
 }
+
