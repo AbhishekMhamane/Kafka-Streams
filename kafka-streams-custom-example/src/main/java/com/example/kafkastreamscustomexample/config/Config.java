@@ -116,7 +116,7 @@ public class Config {
     factory.setConsumerFactory(paymentConsumerFactory());
     return factory;
   }
-  
+    
   @Bean
   public ConsumerFactory<String, Long> accBalanceConsumerFactory() {
 
@@ -147,7 +147,7 @@ public class Config {
   KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
   public KafkaStreamsConfiguration kStreamsConfigs() {
       return new KafkaStreamsConfiguration(Map.of(
-          StreamsConfig.APPLICATION_ID_CONFIG, "testStreams",
+          StreamsConfig.APPLICATION_ID_CONFIG, "springboot-streams-app",
           StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092",
           StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName(),
           StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass().getName(),

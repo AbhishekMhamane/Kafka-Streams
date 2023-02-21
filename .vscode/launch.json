@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-KafkaStreamsCustomExampleApplication<kafka-streams-custom-example>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.kafkastreamscustomexample.KafkaStreamsCustomExampleApplication",
+            "projectName": "kafka-streams-custom-example",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60326 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=kafka-streams-custom-example"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-KafkaStreamsExampleApplication<kafka-streams-example>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.kafkastreamsexample.KafkaStreamsExampleApplication",
+            "projectName": "kafka-streams-example",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
